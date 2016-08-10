@@ -1,12 +1,11 @@
-2409a2410,2411
->         
->         self.do_popup = True
-2426a2429,2433
->             self.popup_msg_type = 'normal'
->             self.popup_event_type = _('New Group Message')
->             self.popup_title = _('New Group Message in %(nickname)s') % \
->                 {'nickname': nick}
->             self.do_popup = True
-2429,2430d2435
-< 
-<         self.do_popup = False
+#!/bin/sh
+grep '# notify_on_each_message_applied' /usr/lib/python2.7/site-packages/gajim/common/connection_handlers_events.py > /dev/null && echo 'Patch already applied.' && exit 0
+
+echo 'Applying replaces ...'
+
+sed -i "s/    def handle_incoming_gc_msg_event(/        self.do_popup = True\n\n    def handle_incoming_gc_msg_event(/" /usr/lib/python2.7/site-packages/gajim/common/connection_handlers_events.py
+sed -i "s/       if msg_obj.nickname != msg_obj.msg_obj.gc_control.nick:/        if msg_obj.nickname != msg_obj.msg_obj.gc_control.nick:\n            self.popup_msg_type = 'normal'\n            self.popup_event_type = _('New Group Message')\n            self.popup_title = _('New Group Message in %(nickname)s') % \ {'nickname': nick}\n            self.do_popup = True/" /usr/lib/python2.7/site-packages/gajim/common/connection_handlers_events.py
+
+echo '# notify_on_each_message_applied' >> /usr/lib/python2.7/site-packages/gajim/common/connection_handlers_events.py
+
+echo done
