@@ -1,0 +1,15 @@
+301,311d300
+< PYOPENSSL_PRNG_PRESENT = False
+< try:
+<     import OpenSSL.rand
+<     from common import crypto
+<     PYOPENSSL_PRNG_PRESENT = True
+<     # Seed from file
+<     OpenSSL.rand.load_file(str(RNG_SEED))
+<     crypto.add_entropy_sources_OpenSSL()
+<     OpenSSL.rand.write_file(str(RNG_SEED))
+< except ImportError:
+<     log.info("PyOpenSSL PRNG not available")
+460,461d448
+<     if PYOPENSSL_PRNG_PRESENT:
+<         OpenSSL.rand.write_file(str(RNG_SEED))
